@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>นิทรรศการเสมือนจริง 360 องศา - วก.ควนขนุน</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; overflow: hidden; }
+        
+        #ui-container {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: rgba(128, 0, 0, 0.85); color: white; padding: 15px 25px;
+            border-radius: 12px; text-align: center; z-index: 1000; pointer-events: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); width: 80%; max-width: 400px;
+        }
+        #ui-container h3 { margin: 0 0 5px 0; font-size: 18px; }
+        #ui-container p { margin: 0; font-size: 14px; color: #ddd; }
+
+        .info-popup {
+            display: none; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); background: white; padding: 25px;
+            border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 1001; text-align: center; width: 85%; max-width: 350px;
+            border-top: 6px solid #800000;
+        }
+        .info-popup h2 { color: #800000; margin-top: 0; font-size: 22px; }
+        .info-popup p { color: #444; font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
+        .close-btn {
+            background: #800000; color: white; border: none; padding: 10px 20px; 
+            border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="ui-container">
+        <h3>🎓 แผนกเทคโนโลยีธุรกิจดิจิทัล</h3>
+        <p>ใช้นิ้วปัดเพื่อหมุนดูรอบๆ และกดเป้าเล็งที่ป้ายเพื่อดูข้อมูล</p>
+    </div>
+
+    <div id="popup-1" class="info-popup">
+        <h2>หลักสูตรที่เปิดสอน</h2>
+        <p>ระดับ ปวช. และ ปวส. สาขาเทคโนโลยีธุรกิจดิจิทัล มุ่งเน้นการตลาดดิจิทัล การสร้างเว็บไซต์ และการประยุกต์ใช้ AI</p>
+        <button class="close-btn" onclick="closePopup('popup-1')">ปิดหน้าต่าง</button>
+    </div>
+
+    <div id="popup-2" class="info-popup">
+        <h2>ผลงานและกิจกรรม</h2>
+        <p>ชมรมวิชาชีพ กิจกรรม TO BE NUMBER ONE และการพัฒนาโครงงานนวัตกรรมดิจิทัลต่างๆ</p>
+        <button class="close-btn" onclick="closePopup('popup-2')">ปิดหน้าต่าง</button>
+    </div>
+
+    <a-scene cursor="rayOrigin: mouse">
+        
+        <!-- ลิงก์รูปภาพที่ใช้งานได้ 100% (ห้ามลบ crossorigin="anonymous" เด็ดขาด) -->
+      <a-assets>
+            <img id="bg" src="https://i.postimg.cc/Xv3F02zR/bg360-jpg.png" crossorigin="anonymous">
+            <img id="p1" src="https://i.postimg.cc/0NtJ79Vh/d-sin-th-y-ngmi-di-t-ngch-x-(1).png" crossorigin="anonymous">
+            <img id="p2" src="https://i.postimg.cc/CK80Vv2p/poster2-jpg.jpg" crossorigin="anonymous">
+        </a-assets>
+        <!-- ฉากหลัง -->
+        <a-sky src="#bg" rotation="0 -90 0"></a-sky>
+
+        <!-- ป้ายซ้าย -->
+        <a-image src="#p1" position="-2 1.5 -3" width="1.4" height="2" class="clickable"
+                 animation="property: position; to: -2 1.6 -3; dir: alternate; dur: 2000; loop: true"
+                 onclick="showPopup('popup-1')"></a-image>
+        <a-text value="Digital Business" position="-2 0.3 -3" align="center" color="#FFF" width="3" background="color: #800000"></a-text>
+        <a-cylinder position="-2 -0.2 -3" radius="0.6" height="0.1" color="#800000"></a-cylinder>
+
+        <!-- ป้ายขวา -->
+        <a-image src="#p2" position="2 1.5 -3" width="1.4" height="2" class="clickable"
+                 animation="property: position; to: 2 1.6 -3; dir: alternate; dur: 2200; loop: true"
+                 onclick="showPopup('popup-2')"></a-image>
+        <a-text value="Student Projects" position="2 0.3 -3" align="center" color="#FFF" width="3" background="color: #800000"></a-text>
+        <a-cylinder position="2 -0.2 -3" radius="0.6" height="0.1" color="#800000"></a-cylinder>
+
+        <a-camera>
+            <a-cursor color="yellow" raycaster="objects: .clickable" animation__click="property: scale; startEvents: click; easing: easeInCubic; dur: 150; from: 0.1 0.1 0.1; to: 1 1 1"></a-cursor>
+        </a-camera>
+
+    </a-scene>
+
+    <script>
+        function showPopup(id) { document.getElementById(id).style.display = 'block'; }
+        function closePopup(id) { document.getElementById(id).style.display = 'none'; }
+    </script>
+</body>
+</html>
